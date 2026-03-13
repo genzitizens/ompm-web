@@ -192,7 +192,14 @@ a {
 .feature-grid,
 .metric-grid,
 .auth-layout,
-.session-card {
+.session-card,
+.bill-form,
+.bill-form__grid,
+.summary-strip,
+.input-list,
+.saved-bill,
+.saved-bill__grid,
+.image-grid {
   display: grid;
   gap: 16px;
 }
@@ -300,6 +307,75 @@ a {
   gap: 16px;
 }
 
+.bill-form__grid,
+.summary-strip,
+.saved-bill__grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.bill-section {
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.section-headline {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.section-headline h3 {
+  margin: 0 0 6px;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.section-headline p,
+.empty-state {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.inline-form-card {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+}
+
+.payee-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.payee-row__remove {
+  align-self: stretch;
+}
+
+.payee-grid,
+.image-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.summary-strip > div {
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+}
+
+.summary-strip strong {
+  display: block;
+  margin-top: 6px;
+}
+
 .program-card__topline {
   display: flex;
   justify-content: space-between;
@@ -350,7 +426,13 @@ a {
   .feature-grid,
   .metric-grid,
   .auth-layout,
-  .session-card {
+  .session-card,
+  .bill-form__grid,
+  .summary-strip,
+  .saved-bill__grid,
+  .payee-grid,
+  .image-grid,
+  .payee-row {
     grid-template-columns: 1fr;
   }
 
@@ -360,8 +442,10 @@ a {
   }
 
   .hero__actions,
-  .session-bar {
+  .session-bar,
+  .section-headline {
     align-items: flex-start;
+    flex-direction: column;
   }
 
   .session-bar__meta {

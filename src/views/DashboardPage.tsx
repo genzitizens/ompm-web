@@ -49,6 +49,17 @@ export function DashboardPage() {
           </div>
         </div>
       </SectionCard>
+
+      <SectionCard
+        title="Next action"
+        description="User Story 2 now lives in the protected bill split flow."
+      >
+        <div className="cta-row">
+          <a href="/programs" className="button button--primary">
+            Open bill split form
+          </a>
+        </div>
+      </SectionCard>
     </div>
   );
 }
