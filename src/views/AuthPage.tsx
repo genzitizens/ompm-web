@@ -17,6 +17,18 @@ const initialFormState: AuthFormState = {
   displayName: ""
 };
 
+function getAuthErrorMessage(mode: AuthMode, error: unknown) {
+  if (error instanceof TypeError) {
+    return "Unable to reach the server. Please check your connection and try again.";
+  }
+
+  if (mode === "register") {
+    return "We could not create your account. Verify your details and try again.";
+  }
+
+  return "Unable to log in. Check your email and password, then try again.";
+}
+
 export function AuthPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -53,7 +65,7 @@ export function AuthPage() {
 
       navigate(fromPath && fromPath !== "/auth" ? fromPath : "/dashboard", { replace: true });
     } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : "Authentication failed");
+      setErrorMessage(getAuthErrorMessage(mode, error));
     } finally {
       setIsSubmitting(false);
     }
