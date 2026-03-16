@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider";
 import { SectionCard } from "../ui/SectionCard";
@@ -33,7 +33,17 @@ export function AuthPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const { isAuthenticated, login, register } = useAuth();
-  const [mode, setMode] = useState<AuthMode>("login");
+  const initialMode = useMemo<AuthMode>(() => {
+    const searchParams = new URLSearchParams(location.search);
+
+    return searchParams.get("mode") === "register" ? "register" : "login";
+  }, [location.search]);
+
+  const [mode, setMode] = useState<AuthMode>(initialMode);
+
+  useEffect(() => {
+    setMode(initialMode);
+  }, [initialMode]);
   const [formState, setFormState] = useState<AuthFormState>(initialFormState);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -81,84 +91,66 @@ export function AuthPage() {
   return (
     <div className="stack stack--auth">
       <SectionCard
-        title="Access your split workspace"
-        description="Create a temporary account or log in to save bill splits and continue where you left off."
+        title="Log in"
+        description="Use your email and password. New here? Switch to Create account."
       >
-        <div className="auth-layout">
-          <div className="auth-panel auth-panel--intro">
-            <p className="eyebrow">User Story 1</p>
-            <h3>Account and session setup</h3>
-            <p>
-              Successful authentication stores the backend token and account identity locally so the app can restore
-              the session on the next load.
-            </p>
-            <ul className="checklist">
-              <li>Register with email, password, and display name</li>
-              <li>Log in with the same credentials later</li>
-              <li>Keep the password out of local storage</li>
-            </ul>
+        <div className="auth-panel auth-panel--compact">
+          <div className="auth-toggle" role="tablist" aria-label="Authentication mode">
+            <button
+              type="button"
+              className={mode === "login" ? "auth-toggle__button auth-toggle__button--active" : "auth-toggle__button"}
+              onClick={() => setMode("login")}
+            >
+              Log in
+            </button>
+            <button
+              type="button"
+              className={mode === "register" ? "auth-toggle__button auth-toggle__button--active" : "auth-toggle__button"}
+              onClick={() => setMode("register")}
+            >
+              Create account
+            </button>
           </div>
 
-          <div className="auth-panel">
-            <div className="auth-toggle" role="tablist" aria-label="Authentication mode">
-              <button
-                type="button"
-                className={mode === "login" ? "auth-toggle__button auth-toggle__button--active" : "auth-toggle__button"}
-                onClick={() => setMode("login")}
-              >
-                Log in
-              </button>
-              <button
-                type="button"
-                className={
-                  mode === "register" ? "auth-toggle__button auth-toggle__button--active" : "auth-toggle__button"
-                }
-                onClick={() => setMode("register")}
-              >
-                Create account
-              </button>
-            </div>
-
-            <form className="auth-form" onSubmit={handleSubmit}>
-              {mode === "register" ? (
-                <label className="field">
-                  <span>Display name</span>
-                  <input
-                    type="text"
-                    value={formState.displayName}
-                    onChange={(event) => updateField("displayName", event.target.value)}
-                    required
-                  />
-                </label>
-              ) : null}
-
+          <form className="auth-form" onSubmit={handleSubmit}>
+            {mode === "register" ? (
               <label className="field">
-                <span>Email</span>
+                <span>Display name</span>
                 <input
-                  type="email"
-                  value={formState.email}
-                  onChange={(event) => updateField("email", event.target.value)}
+                  type="text"
+                  value={formState.displayName}
+                  onChange={(event) => updateField("displayName", event.target.value)}
                   required
                 />
               </label>
+            ) : null}
 
-              <label className="field">
-                <span>Password</span>
-                <input
-                  type="password"
-                  value={formState.password}
-                  onChange={(event) => updateField("password", event.target.value)}
-                  required
-                />
-              </label>
+            <label className="field">
+              <span>Email</span>
+              <input
+                type="email"
+                value={formState.email}
+                onChange={(event) => updateField("email", event.target.value)}
+                required
+              />
+            </label>
 
-              {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
+            <label className="field">
+              <span>Password</span>
+              <input
+                type="password"
+                value={formState.password}
+                onChange={(event) => updateField("password", event.target.value)}
+                required
+              />
+            </label>
 
-              <button type="submit" className="button button--primary button--block" disabled={isSubmitting}>
-                {isSubmitting ? "Submitting..." : mode === "register" ? "Create account" : "Log in"}
-              </button>
-            </form>
-          </div>
+            {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
+
+            <button type="submit" className="button button--primary button--block" disabled={isSubmitting}>
+              {isSubmitting ? "Submitting..." : mode === "register" ? "Create account" : "Log in"}
+            </button>
+          </form>
         </div>
       </SectionCard>
     </div>

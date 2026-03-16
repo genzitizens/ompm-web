@@ -43,15 +43,15 @@ a {
 
 .app-shell {
   min-height: 100vh;
-  padding: 32px;
+  padding: 20px;
 }
 
 .hero {
   max-width: 1200px;
-  margin: 0 auto 32px;
-  padding: 32px;
+  margin: 0 auto 14px;
+  padding: 14px 18px;
   border: 1px solid var(--border);
-  border-radius: 28px;
+  border-radius: 16px;
   background: linear-gradient(135deg, rgba(239, 143, 82, 0.14), rgba(255, 255, 255, 0.04));
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px);
@@ -60,17 +60,17 @@ a {
 .hero__actions {
   display: flex;
   justify-content: space-between;
-  gap: 24px;
+  gap: 12px;
   align-items: flex-end;
   flex-wrap: wrap;
 }
 
 .hero__content {
-  max-width: 720px;
+  max-width: 560px;
 }
 
 .eyebrow {
-  margin: 0 0 12px;
+  margin: 0 0 6px;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   font-size: 0.75rem;
@@ -87,7 +87,7 @@ a {
 }
 
 .hero h1 {
-  font-size: clamp(2.8rem, 5vw, 5rem);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
 }
 
 .hero__lede,
@@ -102,7 +102,7 @@ a {
 .nav {
   display: flex;
   gap: 12px;
-  margin-top: 28px;
+  margin-top: 10px;
   flex-wrap: wrap;
 }
 
@@ -170,7 +170,7 @@ a {
 
 .stack {
   display: grid;
-  gap: 24px;
+  gap: 12px;
 }
 
 .stack--auth {
@@ -224,6 +224,12 @@ a {
   align-items: start;
 }
 
+
+.auth-panel--compact {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
 .auth-panel--intro h3 {
   margin-top: 0;
   font-family: Georgia, "Times New Roman", serif;
@@ -231,8 +237,10 @@ a {
 }
 
 .auth-toggle {
-  display: inline-grid;
+  display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: fit-content;
+  margin: 0 auto;
   padding: 4px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border);
@@ -419,8 +427,8 @@ a {
 
   .hero,
   .section-card {
-    padding: 20px;
-    border-radius: 20px;
+    padding: 14px 16px;
+    border-radius: 16px;
   }
 
   .feature-grid,
@@ -451,4 +459,10 @@ a {
   .session-bar__meta {
     text-align: left;
   }
+}
+
+
+.hero__lede {
+  margin: 6px 0 0;
+  font-size: 0.95rem;
 }
