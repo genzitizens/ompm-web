@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider";
 
 const publicLinks = [{ to: "/", label: "Overview" }];
@@ -9,18 +9,17 @@ const privateLinks = [
 
 export function AppShell() {
   const { isAuthenticated, logout, session } = useAuth();
+  const location = useLocation();
   const links = isAuthenticated ? [...publicLinks, ...privateLinks] : publicLinks;
+  const isAuthRoute = location.pathname === "/auth";
 
   return (
     <div className="app-shell">
       <header className="hero">
         <div className="hero__content">
           <p className="eyebrow">OMPM Web</p>
-          <h1>Split bills, keep the account session, and move the flow to the browser.</h1>
-          <p className="hero__lede">
-            The first web slice handles account creation, login, and local session restore against the backend auth
-            endpoints.
-          </p>
+          <h1>Split bills in one place.</h1>
+          <p className="hero__lede">Sign in to continue or create an account.</p>
         </div>
 
         <div className="hero__actions">
@@ -49,9 +48,18 @@ export function AppShell() {
                 </button>
               </>
             ) : (
-              <NavLink to="/auth" className="button button--primary">
-                Create account / Log in
-              </NavLink>
+              <>
+                <NavLink to="/auth" className="button button--primary" aria-current={isAuthRoute ? "page" : undefined}>
+                  Log in
+                </NavLink>
+                <NavLink
+                  to="/auth?mode=register"
+                  className="button button--secondary"
+                  aria-current={isAuthRoute ? "page" : undefined}
+                >
+                  Create account
+                </NavLink>
+              </>
             )}
           </div>
         </div>
